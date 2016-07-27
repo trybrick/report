@@ -118,6 +118,7 @@
 
       $scope.reset = function() {
         $scope.urlParams = angular.copy($window.urlParams);
+        $scope.urlParams.date = '';
       }
 
       $scope.search = function() {
