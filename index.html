@@ -62,7 +62,7 @@
           </thead>
           <tbody>
             <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
-              <td><a href="javascript:void(0)" data-ng-href="{{item.stats_url}}">{{item.evt.name}}</a></td>
+              <td><a href="javascript:void(0)" target="_black" data-ng-href="{{item.stats_url}}">{{item.evt.name}}</a></td>
               <td>{{item.evt.q.ec}}</td>
               <td>{{item.evt.q.el}}</td>
               <td>{{item.value}}</td>
