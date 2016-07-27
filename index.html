@@ -29,6 +29,7 @@
     <h1>Brick's Website reporting</h1>
 
     <div ng-app="DemoReporting" ng-controller="ReportingController">
+      <div>{{vm.errorMessage}}</div>
       <div>path:
         <input type="text" data-ng-model="urlParams.path" style="width: 300px">
       </div>
@@ -38,24 +39,29 @@
       <div>
         <button type="button" class="btn btn-default" data-ng-click="search()">Search</button>
       </div>
-
+      <div data-ng-show="vm.rst.items.length > 0"><h2>Events</h2>
       <div data-ng-if="vm.rst.items.length > 0" style="width: 100%; display:block; text-align: right">
         filter: <input type="text" data-ng-model="vm.filter">
       </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>path</th>
+            <th>name</th>
+            <th>category</th>
+            <th>label</th>
             <th>hits</th>
           </tr>
         </thead>
         <tbody>
           <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
-            <td>{{item.query.href}}</td>
+            <td><a href="javascript:void(0)" data-ng-href="{{item.stats_url}}">{{item.evt.name}}</a></td>
+            <td>{{item.evt.q.ec}}</td>
+            <td>{{item.evt.q.el}}</td>
             <td>{{item.value}}</td>
           </tr>
         </tbody>
       </table>
+      </div>
 
       
     </div>
@@ -97,6 +103,8 @@
       $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
         .then(function(rsp) {
           $scope.vm.data = rsp.data;
+        }, function(err) {
+          $scope.vm.errorMessage = 'Unexpected error: domain "' + $scope.urlParams.domain + '"not found.  Please check your query string.'
         });
 
       $scope.search = function() {
@@ -107,6 +115,12 @@
             angular.forEach($scope.vm.rst.items, function(v, k) {
               var query = v.stats_url.substring(v.stats_url.indexOf('?') + 1);
               v.query = $window.parseQueryString(query);
+              var evt = {};
+              var parts = v.query.href.split('?');
+              evt.path = parts[0];
+              evt.name = evt.path.split('/')[2];
+              evt.q = $window.parseQueryString(parts[1]); 
+              v.evt = evt;
             });
           })
       };
