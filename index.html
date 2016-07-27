@@ -12,22 +12,20 @@
 
 <body>
   <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
-
   <datalist id="dates">
     <option value="today">
-    <option value="yesterday">
-    <option value="2-days-ago">
-    <option value="last-7-days">
-    <option value="last-14-days">
-    <option value="last-28-days">
-    <option value="last-60-days">
-    <option value="this-month">
-    <option value="last-month">
-    <option value="2-months-ago">
+      <option value="yesterday">
+        <option value="2-days-ago">
+          <option value="last-7-days">
+            <option value="last-14-days">
+              <option value="last-28-days">
+                <option value="last-60-days">
+                  <option value="this-month">
+                    <option value="last-month">
+                      <option value="2-months-ago">
   </datalist>
   <div class="container">
     <h1>Brick's Website reporting</h1>
-
     <div ng-app="DemoReporting" ng-controller="ReportingController">
       <div>{{vm.errorMessage}}</div>
       <div>path:
@@ -39,31 +37,31 @@
       <div>
         <button type="button" class="btn btn-default" data-ng-click="search()">Search</button>
       </div>
-      <div data-ng-show="vm.rst.items.length > 0"><h2>Events</h2>
-      <div data-ng-if="vm.rst.items.length > 0" style="width: 100%; display:block; text-align: right">
-        filter: <input type="text" data-ng-model="vm.filter">
+      <div data-ng-show="vm.rst.items.length > 0">
+        <h2>Events</h2>
+        <div data-ng-if="vm.rst.items.length > 0" style="width: 100%; display:block; text-align: right">
+          filter:
+          <input type="text" data-ng-model="vm.filter">
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>category</th>
+              <th>label</th>
+              <th>hits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
+              <td><a href="javascript:void(0)" data-ng-href="{{item.stats_url}}">{{item.evt.name}}</a></td>
+              <td>{{item.evt.q.ec}}</td>
+              <td>{{item.evt.q.el}}</td>
+              <td>{{item.value}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>name</th>
-            <th>category</th>
-            <th>label</th>
-            <th>hits</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
-            <td><a href="javascript:void(0)" data-ng-href="{{item.stats_url}}">{{item.evt.name}}</a></td>
-            <td>{{item.evt.q.ec}}</td>
-            <td>{{item.evt.q.el}}</td>
-            <td>{{item.value}}</td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-
-      
     </div>
   </div>
   <!--REPLACEME-->
@@ -119,11 +117,13 @@
               var parts = v.query.href.split('?');
               evt.path = parts[0];
               evt.name = evt.path.split('/')[2];
-              evt.q = $window.parseQueryString(parts[1]); 
+              evt.q = $window.parseQueryString(parts[1]);
               v.evt = evt;
             });
           })
       };
+
+      $scope.search();
     };
   })();
 
