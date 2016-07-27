@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>Reports</title>
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300">
+</head>
+
+<body>
+  <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
+
+  <datalist id="dates">
+    <option value="today">
+    <option value="yesterday">
+    <option value="2-days-ago">
+    <option value="last-7-days">
+    <option value="last-14-days">
+    <option value="last-28-days">
+    <option value="last-60-days">
+    <option value="this-month">
+    <option value="last-month">
+    <option value="2-months-ago">
+  </datalist>
+  <div class="container">
+    <h1>Brick's Website reporting</h1>
+
+    <div ng-app="DemoReporting" ng-controller="ReportingController">
+      <div>path:
+        <input type="text" data-ng-model="urlParams.path" style="width: 300px">
+      </div>
+      <div>date:
+        <input type="text" data-ng-model="urlParams.date" list="dates" placeholder="today" style="width: 300px" title="Pick from list or use custom range, hint from,to date: yyyy-mm-dd,yyyy-mm-dd">
+      </div>
+      <div>
+        <button type="button" class="btn btn-default" data-ng-click="search()">Search</button>
+      </div>
+
+      <div data-ng-if="vm.rst.items.length > 0" style="width: 100%; display:block; text-align: right">
+        filter: <input type="text" data-ng-model="vm.filter">
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>path</th>
+            <th>hits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
+            <td>{{item.query.href}}</td>
+            <td>{{item.value}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      
+    </div>
+  </div>
+  <!--REPLACEME-->
+  <script>
+  var match,
+    pl = /\+/g, // Regex for replacing addition symbol with a space
+    search = /([^&=]+)=?([^&]*)/g,
+    decode = function(s) {
+      return decodeURIComponent(s.replace(pl, " "));
+    },
+    query = location.search.substring(1);
+
+  window.parseQueryString = function(queryString) {
+    var urlParams = {};
+    while (match = search.exec(queryString))
+      urlParams[decode(match[1])] = decode(match[2]);
+    return urlParams;
+  }
+
+  window.urlParams = parseQueryString(query);
+
+  (function() {
+    angular
+      .module("DemoReporting", [])
+      .controller("ReportingController", ['$scope', '$window', '$http', ReportingController]);
+
+    function ReportingController($scope, $window, $http) {
+      $scope.vm = {
+        data: {},
+        client: $window.urlParams.client || 'awg'
+      };
+      $scope.urlParams = $window.urlParams;
+      $scope.urlParams.path = $scope.urlParams.path || '/evt/CircularItem';
+
+      // get url
+      // get report
+      $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
+        .then(function(rsp) {
+          $scope.vm.data = rsp.data;
+        });
+
+      $scope.search = function() {
+        var url = $scope.vm.data.url + '&output=json&rand=' + (new Date().getTime()) + '&date=' + ($scope.urlParams.date || 'today') + '&filter=' + $scope.urlParams.path;
+        $http.get(url)
+          .then(function(rsp) {
+            $scope.vm.rst = rsp.data[0].dates[0];
+            angular.forEach($scope.vm.rst.items, function(v, k) {
+              var query = v.stats_url.substring(v.stats_url.indexOf('?') + 1);
+              v.query = $window.parseQueryString(query);
+            });
+          })
+      };
+    };
+  })();
+
+  </script>
+</body>
+
+</html>
+
