@@ -109,16 +109,16 @@
       // get report
       $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
         .then(function(rsp) {
+          $scope.reset($scope.urlParams.date);
           $scope.vm.data = rsp.data;
           $scope.search();
-          $scope.reset();
         }, function(err) {
           $scope.vm.errorMessage = 'Unexpected error: domain "' + $scope.urlParams.domain + '"not found.  Please check your query string.'
         });
 
-      $scope.reset = function() {
+      $scope.reset = function(date) {
         $scope.urlParams = angular.copy($window.urlParams);
-        $scope.urlParams.date = '';
+        $scope.urlParams.date = date || '';
       }
 
       $scope.search = function() {
