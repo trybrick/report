@@ -109,7 +109,7 @@
       // get report
       $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
         .then(function(rsp) {
-          $scope.reset($scope.urlParams.date);
+          $scope.reset($window.urlParams.date);
           $scope.vm.data = rsp.data;
           $scope.search();
         }, function(err) {
