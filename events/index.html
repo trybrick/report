@@ -109,9 +109,9 @@
       // get report
       $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
         .then(function(rsp) {
-          $scope.reset();
           $scope.vm.data = rsp.data;
           $scope.search();
+          $scope.reset();
         }, function(err) {
           $scope.vm.errorMessage = 'Unexpected error: domain "' + $scope.urlParams.domain + '"not found.  Please check your query string.'
         });
