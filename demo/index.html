@@ -1,0 +1,313 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/aux_css_20.css">
+<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/leg_css_20.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">
+<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/iMaps/districts/css/app.css">
+
+</head>
+<body>
+<div style="width: 1170px; margin: 0 auto;">
+<div id="leg_PageContent" class="leg_PageContent" tabindex="0">
+  <div class="leg_Col4of4-First">
+    <!-- Closes in footer - so leave this openended -->
+    <h2 id="map_title">Who Represents Me?</h2>
+    <div id="map_reset"><a class="noref">Reset Map <i class="fa fa-refresh"></i></a></div>
+    <a>
+      <div id="triangle-topright"><i class="fa fa-map fa-lg"></i></div>
+    </a>
+    <div class="loader" style="display: none;">Loading...</div>
+
+    <div id="map_layers">
+      <div id="map_layers_content">
+        <div id="map_layers_toggle"> Hide Layers <i class="fa fa-map fa-sm"></i> <i class="fa fa-chevron-right fa-sm"></i></div>
+        <div id="map_layers_content_title">Layers</div>
+        <div id="map_layers_content_list">
+          <div id="shdiv" class="onoffswitch">
+
+            <input name="onoffswitch" class="onoffswitch-checkbox" id="shonoffswitch" checked="" type="checkbox">
+            <label class="onoffswitch-label" for="shonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+
+          </div>
+          <div class="layersswitchLabel">State House Districts</div>
+          <div id="ssdiv" class="onoffswitch">
+
+            <input name="onoffswitch" class="onoffswitch-checkbox" id="ssonoffswitch" checked="" type="checkbox">
+            <label class="onoffswitch-label" for="ssonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+
+          </div>
+          <div class="layersswitchLabel">State Senate Districts</div>
+          <div id="congressdiv" class="onoffswitch">
+
+            <input name="onoffswitch" class="onoffswitch-checkbox" id="cononoffswitch" checked="" type="checkbox">
+            <label class="onoffswitch-label" for="cononoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+
+          </div>
+          <div class="layersswitchLabel">Congressional Districts</div>
+          <!-- boudaries -->
+          <div id="citydiv" class="onoffswitch">
+
+            <input name="onoffswitch" class="onoffswitch-checkbox" id="cityonoffswitch" checked="" type="checkbox">
+            <label class="onoffswitch-label" for="cityonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+
+          </div>
+          <div class="layersswitchLabel">Municipal Boundaries</div>
+
+          <div id="countydiv" class="onoffswitch">
+
+            <input name="onoffswitch" class="onoffswitch-checkbox" id="countyonoffswitch" checked="" type="checkbox">
+            <label class="onoffswitch-label" for="countyonoffswitch">
+              <span class="onoffswitch-inner"></span>
+              <span class="onoffswitch-switch"></span>
+            </label>
+
+          </div>
+          <div class="layersswitchLabel">County Boundaries</div>
+        </div>
+
+
+
+
+        <div id="map_layers_basemap_title">Basemap Layers</div>
+        <!-- <button id = "switchBasemap">Switch</button> -->
+        <div id="satellitediv" class="onoffswitch">
+
+          <input name="onoffswitch" class="onoffswitch-checkbox" id="satellitonoffswitch" checked="" type="checkbox">
+          <label class="onoffswitch-label" for="satellitonoffswitch">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+          </label>
+
+        </div>
+        <div id="switchLabel">Satelite Imagery</div>
+      </div>
+    </div>
+    <div class="search">
+
+      <div class="form-group">
+        <form id="mainsearchform" onsubmit="geoCodeAddress()">
+          <label for="geocode">Enter Address, City, State, and Zipcode</label>
+          <button id="gpsButton"><i class="fa fa-location-arrow" alt="Zoom to GPS location"></i></button>
+          <input id="geocodeAddress" name="geocode" type="text">
+          <button id="searchButton" class="searchButton" alt="Submit address"><i class="fa fa-search"></i></button>
+          <p id="geocodeFeedback"></p>
+
+        </form>
+      </div>
+
+    </div>
+    <div id="sidebar">
+      <div id="toggleSidebar">Go to Map <i class="fa fa-chevron-right"></i></div>
+      <div id="mask">
+        <div id="pull-in">
+          <i class="fa fa-chevron-left"> </i>
+        </div>
+        <p><strong>Get Started: </strong></p>
+        <ul>
+          <li>For best results, enter a complete Minnesota address.</li>
+          <span class="center"> -- or -- </span>
+
+          <li>Single-click or touch the map to select a search location. </li>
+        </ul>
+        <hr>
+        <!-- <p><strong>On Results Tab: </strong></p> -->
+        <ul>
+          <!-- <li>Select member in results tab to view district boundary on the map.</li>
+
+	    		<li>Select <span class='contact'>Member webpage <i class="fa fa-external-link"></i></span> in results tab to view the official's web page/contact information.</li> -->
+
+          <li class="helpers">Please note the
+            <span style="color:#a54a36; font-size:11px; padding:5px;">
+	    		        <i class="fa fa-info-circle"> </i>
+	    		        <i class="fa fa-exclamation-triangle"> </i>
+	    		        <i class="fa fa-refresh"> </i>
+	    		    </span> helpers placed around the map.</li>
+
+        </ul>
+
+      </div>
+
+
+      <div id="officials">
+
+
+        <div class="mnhouse">
+
+
+          <div class="membersublist">
+            <div class="memberLink" style="display: none;"><span id="mnhouselink">Show District <i class="fa fa-external-link-square"></i></span></div>
+            <div id="housemember" class="lcc_gis_member"></div>
+            <div id="housedistrict" class="lcc_gis_memberdistrict"></div>
+          </div>
+          <img id="housephoto" class="mnhouse_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
+
+        </div>
+        <div class="mnsenate">
+
+
+          <div class="membersublist">
+            <div class="memberLink" style="display: none;"><span id="mnsenlink">Show District <i class="fa fa-external-link-square"></i></span></div>
+            <div id="senatemember" class="lcc_gis_member"></div>
+            <div id="senatedistrict" class="lcc_gis_memberdistrict"></div>
+          </div>
+          <img id="senatephoto" class="mnsenate_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
+
+        </div>
+        <div class="ushouse">
+
+
+          <div class="membersublist">
+            <div class="memberLink" style="display: none;"><span id="ushouselink">Show District <i class="fa fa-external-link-square"></i></span></div>
+            <div id="ushousemember" class="lcc_gis_member"></div>
+            <div id="ushousedistrict" class="lcc_gis_memberdistrict"></div>
+          </div>
+          <img id="ushousephoto" class="ushouse_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
+
+        </div>
+        <div class="ussenate1">
+
+
+          <div class="membersublist">
+            <div class="memberLink" style="display: none;"><span id="ussenatelink">Show District <i class="fa fa-external-link-square"></i></span></div>
+            <div id="ussenatemember" class="lcc_gis_member"></div>
+            <div id="ussenatedistrict" class="lcc_gis_memberdistrict"></div>
+          </div>
+          <img id="ussenatephoto" class="ussenate1_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
+
+        </div>
+        <div class="ussenate2">
+
+
+          <div class="membersublist">
+            <div class="memberLink" style="display: none;"><span id="ussenate2link">Show District <i class="fa fa-external-link-square"></i></span></div>
+            <div id="ussenatemember2" class="lcc_gis_member"></div>
+            <div id="ussenatedistrict2" class="lcc_gis_memberdistrict"></div>
+          </div>
+          <img id="ussenatephoto2" class="ussenate2_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
+
+        </div>
+
+      </div>
+    </div>
+
+    <div id="map" style="height: 544px; position: relative;" class="leaflet-container leaflet-retina leaflet-fade-anim" tabindex="0">
+
+      <div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+        <div class="leaflet-tile-pane">
+          <div class="leaflet-layer" style="z-index: 1;">
+            <div class="leaflet-tile-container"></div>
+            <div class="leaflet-tile-container leaflet-zoom-animated"><img class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(254px, 86px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/15/22.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g">
+              <img
+              class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(254px, -170px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/15/21.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g"><img class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(-2px, 86px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/14/22.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g">
+                <img
+                class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(510px, 86px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/16/22.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g"><img class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(254px, 342px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/15/23.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g">
+                  <img
+                  class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(-2px, -170px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/14/21.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g"><img class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(510px, -170px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/16/21.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g">
+                    <img
+                    class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(-2px, 342px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/14/23.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g"><img class="leaflet-tile leaflet-tile-loaded" style="height: 256px; width: 256px; transform: translate3d(510px, 342px, 0px);" src="https://api.tiles.mapbox.com/v4/mapbox.streets/6/16/23.png?access_token=pk.eyJ1IjoiY2NhbnRleSIsImEiOiJjaWVsdDNubmEwMGU3czNtNDRyNjRpdTVqIn0.yFaW4Ty6VE3GHkrDvdbW6g"></div>
+          </div>
+        </div>
+        <div class="leaflet-objects-pane">
+          <div class="leaflet-shadow-pane"></div>
+          <div class="leaflet-overlay-pane"></div>
+          <div class="leaflet-marker-pane"></div>
+          <div class="leaflet-popup-pane"></div>
+        </div>
+      </div>
+      <div class="leaflet-control-container">
+        <div class="leaflet-top leaflet-left">
+          <div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="#" title="Zoom in">+</a><a class="leaflet-control-zoom-out leaflet-disabled" href="#" title="Zoom out">-</a></div>
+        </div>
+        <div class="leaflet-top leaflet-right"></div>
+        <div class="leaflet-bottom leaflet-left"></div>
+        <div class="leaflet-bottom leaflet-right">
+          <div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> | Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, Legislative data &copy; <a href="http://www.gis.leg.mn/">LCC-GIS</a>, Imagery Â&copy;
+            <a href="http://mapbox.com">Mapbox</a></div>
+        </div>
+      </div>
+    </div>
+    <div id="map_help">
+      <a class="noref" id="modal" data-popup-open="popup-1"><i class="fa fa-info-circle"></i> Help</a>
+    </div>
+    <!-- <div id='map_search_results_metadata'>
+		Search Results for Latitude: 44.9374, Longitude: -92.9778
+	</div> -->
+    <div id="map_disclaimer">
+      <a class="noref" data-popup-open="popup-2">Disclaimer <i class="fa fa-exclamation-triangle"></i> </a>
+    </div>
+    <div id="pull-out">
+      <i class="fa fa-chevron-right"> </i>
+    </div>
+    <!-- <div class='form-group smallscreen'>
+		<form action="javascript:submitQuery()">
+		    <label for="geocode">Enter Address, City State, and Zipcode</label>
+		    <input type="text" name="geocode"></input><button class="searchButton">Search</button>
+
+		</form>
+	</div> -->
+
+    <!-- help modal -->
+    <div class="popup" data-popup="popup-1">
+      <div class="popup-inner">
+        <h2>Help Section</h2>
+        <ul style="list-style-type:disc">
+          <li> Use the zoom control (+ -) in upper left or use your mouse wheel to zoom-in and zoom-out of the map. </li>
+          <li> Click and drag the map to pan around the map. </li>
+          <li> Click the map icon in upper right to view available layers. </li>
+          <li> Toggle switches in layers tab to turn on/off layers. </li>
+          <li> Select member in results tab to open the member's webpage</li>
+          <li> Select <span class="contact">Show District <i class="fa fa-external-link"></i></span> to view the member's district boundary.</li>
+
+        </ul>
+        <p><a data-popup-close="popup-1" href="#">Close Help</a></p>
+        <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+      </div>
+    </div>
+
+    <!-- dislaimer modal -->
+    <div class="popup" data-popup="popup-2">
+      <div class="popup-inner">
+        <h2>Disclaimer</h2>
+        <p>
+          PLEASE NOTE: This Web application is intended to provide general information only. Due to limitations in the data, the District Finder may incorrectly identify which district you live in, especially if the address is near the boundary of the district
+          (where errors are more likely to occur). Please examine the map to determine whether your address is near the boundary. If it is, we recommend that you contact your county elections office.
+
+        </p>
+        <p><a data-popup-close="popup-2" href="#">Close Help</a></p>
+        <a class="popup-close" data-popup-close="popup-2" href="#">x</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script src="http://www.gis.leg.mn/css/leg_core_20.js"></script>
+<script src="http://www.gis.leg.mn/css/leg_mobile_20.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+<script src="app.js"></script>
+<script src="http://www.gis.leg.mn/iMaps/districts/js/helper.js"></script>
+<script src="http://www.gis.leg.mn/css/js/hideshow2.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjLBXFUQoHrvhGum966o0yp9PBufHxbgY"></script>
+<script data-cfasync="false" type="text/javascript">
+	var gtm4wp_datalayer_name = "dataLayer";
+	var dataLayer = dataLayer || []
+</script>
+</div>
+</body>
+</html>
