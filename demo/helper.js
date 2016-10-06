@@ -64,32 +64,12 @@ $( document ).ready(function() {
 		var mom = $(this).parent();
 		var grandma = mom.parent();
 		var child = $(this).children();
-		//console.log(mom);
-		//console.log(grandma);
-		//console.log(child);
+		console.log(mom);
+		console.log(grandma);
+		console.log(child);
         grandma.addClass('active').siblings().removeClass('active');
         //get static minnesota geojson (faster than php)
-		if (child.is('#ussenatelink') || child.is('#ussenate2link')){
-			//console.log(child);
-		  	if(typeof MinnesotaBoundaryLayer === 'undefined'){
-					$.getJSON("./data/Minnesota2015.json", function(data) {
-						var myStyle = {
-		    				"color": "#991a36",
-		    				"weight": 2,
-		    				"opacity": 0.65
-						};
-						MinnesotaBoundaryLayer = L.geoJson(data, {style:myStyle});
-		  			}).done(function(){
-		  				
-		  				showSenateDistrict();
-		  			});
-		  		} else {
-		  			showSenateDistrict();
-		  		}	
-		} else {
-	        showDistrict(grandma.attr('class'));
-	    }
-	    
+	    showDistrict(grandma.attr('class'));
 	});
 
 	//Open layers tab

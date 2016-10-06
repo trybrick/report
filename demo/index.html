@@ -48,7 +48,7 @@
 </head>
 <body data-ng-app="myApp">
 <div style="width: 1170px; margin: 0 auto;">
-<div id="leg_PageContent" class="leg_PageContent" tabindex="0" data-ng-controller="MainController">
+<div id="leg_PageContent" class="leg_PageContent" tabindex="0">
   <div class="leg_Col4of4-First">
     <!-- Closes in footer - so leave this openended -->
     <h2 id="map_title">Who Represents Me?</h2>
@@ -133,22 +133,22 @@
         <!-- <p><strong>On Results Tab: </strong></p> -->
         <ul>
           <!-- <li>Select member in results tab to view district boundary on the map.</li>
-
-	    		<li>Select <span class='contact'>Member webpage <i class="fa fa-external-link"></i></span> in results tab to view the official's web page/contact information.</li> -->
+          <li>Select <span class='contact'>Member webpage <i class="fa fa-external-link"></i></span> in results tab to view the official's web page/contact information.</li> -->
 
           <li class="helpers">Please note the
             <span style="color:#a54a36; font-size:11px; padding:5px;">
-	    		        <i class="fa fa-info-circle"> </i>
-	    		        <i class="fa fa-exclamation-triangle"> </i>
-	    		        <i class="fa fa-refresh"> </i>
-	    		    </span> helpers placed around the map.</li>
+                  <i class="fa fa-info-circle"> </i>
+                  <i class="fa fa-exclamation-triangle"> </i>
+                  <i class="fa fa-refresh"> </i>
+              </span> helpers placed around the map.</li>
 
         </ul>
 
       </div>
 
 
-      <div id="officials">
+      <div id="officials"  data-ng-controller="MainController">
+
 
 
         <div class="mnhouse" data-ngmodal="modal-mnhouse.html" data-ng-click="selectmnHouse();openModal();" data-hide-on="click,esc,tap">
@@ -174,12 +174,13 @@
 
         </div>
 
+
       </div>
     </div>
 
-    <div id="map" style="height: 544px; position: relative;" class="leaflet-container leaflet-retina leaflet-fade-anim" tabindex="0">
+    <div id="map" style="height: 544px; position: relative;" class="leaflet-container leaflet-retina leaflet-fade-anim"  tabindex="0" >
 
-      <div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+      <div class="leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);" >
         <div class="leaflet-tile-pane">
           <div class="leaflet-layer" style="z-index: 1;">
             <div class="leaflet-tile-container"></div>
@@ -217,8 +218,8 @@
       <a class="noref" id="modal" data-popup-open="popup-1"><i class="fa fa-info-circle"></i> Help</a>
     </div>
     <!-- <div id='map_search_results_metadata'>
-		Search Results for Latitude: 44.9374, Longitude: -92.9778
-	</div> -->
+    Search Results for Latitude: 44.9374, Longitude: -92.9778
+  </div> -->
     <div id="map_disclaimer">
       <a class="noref" data-popup-open="popup-2">Disclaimer <i class="fa fa-exclamation-triangle"></i> </a>
     </div>
@@ -226,12 +227,11 @@
       <i class="fa fa-chevron-right"> </i>
     </div>
     <!-- <div class='form-group smallscreen'>
-		<form action="javascript:submitQuery()">
-		    <label for="geocode">Enter Address, City State, and Zipcode</label>
-		    <input type="text" name="geocode"></input><button class="searchButton">Search</button>
-
-		</form>
-	</div> -->
+    <form action="javascript:submitQuery()">
+        <label for="geocode">Enter Address, City State, and Zipcode</label>
+        <input type="text" name="geocode"></input><button class="searchButton">Search</button>
+    </form>
+  </div> -->
 
     <!-- help modal -->
     <div class="popup" data-popup="popup-1">
@@ -267,7 +267,6 @@
 
   </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://cdn.gsngrocers.com/script/gmodal.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.js"></script>
@@ -296,7 +295,7 @@
           $scope.vm.errorMessage = 'Unexpected error.'
         });
 
-      $http.get('https://api.myjson.com/bins/2h4lo')
+      $http.get('https://api.myjson.com/bins/2gaic')
         .then(function(rsp) {
           angular.forEach(rsp.data.mnhouse, function(v){
             var cname = angular.lowercase(v.Candidate.split(', ').reverse().join(' '));
@@ -320,6 +319,7 @@
         if (!$scope.vm.currentCandidate) {
           $scope.vm.currentCandidate = defaultsResponse;
         }
+        dataLayer.push({'event': 'memberclick'});
         
       };
       $scope.selectmnHouse = function(){
@@ -329,6 +329,7 @@
         if (!$scope.vm.currentCandidate) {
           $scope.vm.currentCandidate = defaultsResponse;
         }
+        dataLayer.push({'event': 'memberclick'});
       };
       $scope.hideCallback = function(){
         console.log('hide callback')

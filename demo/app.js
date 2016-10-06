@@ -214,7 +214,7 @@ function showDistrict(div){
 	$('.loader').show();
 
 	//div is the class name of the active member
-	divmap = {"mnhouse active":0, "mnsenate active":1, "ushouse active":2};
+	divmap = {"mnhouse ng-scope active":0, "mnsenate ng-scope active":1, "ushouse ng-scope active":2};
 
 	//remove preveious district layers.
 	if (typeof mapDistrictsLayer !== "undefined" ){ 
