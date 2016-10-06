@@ -1,16 +1,54 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/aux_css_20.css">
-<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/leg_css_20.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>who represent me demo</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/aux_css_20.css">
+  <link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/css/leg_css_20.css">
 
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">
-<link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/iMaps/districts/css/app.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css">
+  <link rel="stylesheet" type="text/css" href="http://www.gis.leg.mn/iMaps/districts/css/app.css">
+<style type="text/css">
+    html, body {
+        margin: 0;
+        padding: 10px;
+    }
+  
+    .gmodal {
+          /* cross-browser IE8 and up compatible data URI RGBA(0,0,0,0.7) */
+          background: url("data:image/gif;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNg2AQAALUAs0e+XlcAAAAASUVORK5CYII=");
+    }
+  
+    .myModalContent {
+      background: #fff;
+      width: 500px;
+      padding: 20px;
+      overflow-y: scroll;
+    }
+  
+    .myCloseButton {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  
+    /* make bootstrap modal scrollable */
+    .modal-body {
+        max-height: 200px;
+        overflow-y: auto;
+    }
 
+    .questionList {
+
+    }
+  </style>
 </head>
-<body>
+<body data-ng-app="myApp">
 <div style="width: 1170px; margin: 0 auto;">
-<div id="leg_PageContent" class="leg_PageContent" tabindex="0">
+<div id="leg_PageContent" class="leg_PageContent" tabindex="0" data-ng-controller="MainController">
   <div class="leg_Col4of4-First">
     <!-- Closes in footer - so leave this openended -->
     <h2 id="map_title">Who Represents Me?</h2>
@@ -113,22 +151,22 @@
       <div id="officials">
 
 
-        <div class="mnhouse">
-
+        <div class="mnhouse" data-ngmodal="modal-mnhouse.html" data-ng-click="selectmnHouse();openModal();" data-hide-on="click,esc,tap">
+          <span style="display: none" id="housemembername"></span>
 
           <div class="membersublist">
-            <div class="memberLink" style="display: none;"><span id="mnhouselink">Show District <i class="fa fa-external-link-square"></i></span><span>Show Position <i class="fa fa-external-link-square"></i></span></div>
+            <div class="memberLink" style="display: none;"><span id="mnhouselink">Show District <i class="fa fa-external-link-square"></i></span></div>
             <div id="housemember" class="lcc_gis_member"></div>
             <div id="housedistrict" class="lcc_gis_memberdistrict"></div>
           </div>
           <img id="housephoto" class="mnhouse_img" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="" width="0" height="0">
 
         </div>
-        <div class="mnsenate">
-
+        <div class="mnsenate" data-ngmodal="modal-mnsenate.html" data-ng-click="selectmnSenate();openModal();" data-hide-on="click,esc,tap">
+          <span style="display: none" id="senatemembername"></span>
 
           <div class="membersublist">
-            <div class="memberLink" style="display: none;"><span id="mnsenlink">Show District <i class="fa fa-external-link-square"></i></span><span>Show Position <i class="fa fa-external-link-square"></i></span></div>
+            <div class="memberLink" style="display: none;"><span id="mnsenlink">Show District <i class="fa fa-external-link-square"></i></span></div>
             <div id="senatemember" class="lcc_gis_member"></div>
             <div id="senatedistrict" class="lcc_gis_memberdistrict"></div>
           </div>
@@ -231,18 +269,78 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+<script src="http://cdn.gsngrocers.com/script/gmodal.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.js"></script>
+<script src="http://niiknow.github.io/ngmodal/lib/index.js"></script>
 <script src="http://www.gis.leg.mn/css/leg_core_20.js"></script>
 <script src="http://www.gis.leg.mn/css/leg_mobile_20.js"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 <script src="app.js"></script>
-<script src="http://www.gis.leg.mn/iMaps/districts/js/helper.js"></script>
-<script src="http://www.gis.leg.mn/css/js/hideshow2.js"></script>
+<script src="helper.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjLBXFUQoHrvhGum966o0yp9PBufHxbgY"></script>
 <script data-cfasync="false" type="text/javascript">
 	var gtm4wp_datalayer_name = "dataLayer";
 	var dataLayer = dataLayer || []
 </script>
+<script>
+    var myApp = angular.module('myApp',['ngmodal']);
+
+    myApp.controller('MainController', ['$scope', '$http', function($scope, $http) {
+      $scope.vm = {questions: {mnhouse: [], mnsenate: []}, candidates: {mnhouse: {}, mnsenate: {}}, currentCandidate: null};
+      var defaultsResponse = ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
+
+      $http.get('https://api.myjson.com/bins/4jpsc')
+        .then(function(rsp) {
+          $scope.vm.questions = rsp.data;
+        }, function(err) {
+          $scope.vm.errorMessage = 'Unexpected error.'
+        });
+
+      $http.get('https://api.myjson.com/bins/2h4lo')
+        .then(function(rsp) {
+          angular.forEach(rsp.data.mnhouse, function(v){
+            var cname = angular.lowercase(v.Candidate.split(', ').reverse().join(' '));
+            $scope.vm.candidates.mnhouse[cname] = v;
+          });
+          angular.forEach(rsp.data.mnsenate, function(v){
+            var cname = angular.lowercase(v.Candidate.split(', ').reverse().join(' '));
+            $scope.vm.candidates.mnsenate[cname] = v;
+          });
+        }, function(err) {
+          $scope.vm.errorMessage = 'Unexpected error.'
+        });
+        
+
+      $scope.double = function(value) { return value * 2; };
+      $scope.selectmnSenate = function(){
+        var cname = angular.lowercase(angular.element('#senatemembername').html());
+
+        // loop through all candidates
+        $scope.vm.currentCandidate = $scope.vm.candidates.mnsenate[cname];
+        if (!$scope.vm.currentCandidate) {
+          $scope.vm.currentCandidate = defaultsResponse;
+        }
+        
+      };
+      $scope.selectmnHouse = function(){
+        var cname = angular.lowercase(angular.element('#housemembername').html());
+        // loop through all candidates
+        $scope.vm.currentCandidate = $scope.vm.candidates.mnhouse[cname];
+        if (!$scope.vm.currentCandidate) {
+          $scope.vm.currentCandidate = defaultsResponse;
+        }
+      };
+      $scope.hideCallback = function(){
+        console.log('hide callback')
+      };
+    }]);
+    myApp.controller('ModalController', ['$scope', function($scope) {
+      $scope.getResponse = function(idx){
+        return $scope.vm.currentCandidate[idx];
+      }
+
+    }]);
+  </script>
 </div>
 </body>
 </html>
