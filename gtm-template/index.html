@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>
+            Brick's GTM Import Template Builder
+        </title>
+        <link rel="stylesheet" href="../url-builder/css/foundation.css" type="text/css">
+    
+    </head>
+    <body>
+        <nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#">Brick's GTM Import Template Builder</a></h1>
+    </li>
+  </ul>
+</nav>
+
+<br/>
+<br/>
+        <div ng-app="myApp">
+        <h2 data-ng-click="hideTemplate = !hideTemplate">template</h2>
+                <textarea rows="5" data-ng-bind="tpl" data-ng-show="hideTemplate">
+                    
+                </textarea>
+            <h1>Required Data</h1>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Website URL<small> required</small></label> <input type="text" ng-model="vm.url" autofocus="" placeholder="website name, example: http://www.coborns.com">
+                <button data-ng-click="doLookup()">Lookup</button>
+            </div>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Google Analytics UA-#<small> required</small></label> <input type="text" ng-model="vm.ua" autofocus="" placeholder="UA-########-##">
+            </div>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Container Code<small> required</small></label> <input type="text" ng-model="vm.containerCode" autofocus="" placeholder="GTM-ABCXYZ">
+                <textarea rows=10 data-ng-show="vm.containerCode" data-ng-bind="vm.code"></textarea>
+            </div>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Account Id<small> required</small></label> <input type="text" ng-model="vm.accountId" autofocus="" placeholder="34534534534">
+            </div>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Container Id<small> required</small></label> <input type="text" ng-model="vm.containerId" autofocus="" placeholder="123432">
+            </div>
+            <div class="large-6 columns">
+                <label style="font-size:16px;">AppNexusId<small> required</small></label> <input type="text" ng-model="vm.anxId" autofocus="" placeholder="123432">
+            </div>
+            <div class="large-12 columns">
+            <center><button id="buttonChange" data-ng-click="generate()">Generate</button></center>
+            </div>
+            <!-- this is the quicker way to add the content -->
+            <h2 style="text-align:center">
+                Your UTM Template
+            </h2>
+            <textarea rows="5" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible" data-ng-bind="vm.rst" ng-show="vm.url && vm.ua">
+            </textarea>
+          
+
+        </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+<script type="text/javascript">
+var myApp = angular.module('myApp', []);
+var template = {
+    "exportFormatVersion": 2,
+    "exportTime": "2016-12-13 21:22:35",
+    "containerVersion": {
+        "path": "accounts/160904734/containers/2772461/versions/0",
+        "accountId": "160904734",
+        "containerId": "2772461",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/160904734/containers/2772461",
+            "accountId": "160904734",
+            "containerId": "2772461",
+            "name": "freshandnaturalfoods.com",
+            "publicId": "GTM-WJ5X58",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1480720855378",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/160904734/containers/2772461/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "tagId": "2",
+                "name": "Retargeting Display",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<!-- Segment Pixel - Retargeting - DO NOT MODIFY -->\n<img src=\"https://secure.adnxs.com/seg?add=1234567&t=2\" width=\"1\" height=\"1\" />\n<!-- End of Segment Pixel -->"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1479504773381",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "tagId": "3",
+                "name": "UA - Conversion",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventValue",
+                        "value": "1"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "{{utm_name}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "{{Page Path}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{Click URL}}"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-79697394-9"
+                    }
+                ],
+                "fingerprint": "1480720787227",
+                "firingTriggerId": [
+                    "8"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "tagId": "1",
+                "name": "Universal Analytics",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-79697394-9"
+                    }
+                ],
+                "fingerprint": "1478620160096",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "triggerId": "8",
+                "name": "All UTM Clicks",
+                "type": "LINK_CLICK",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "utm_name"
+                            }
+                        ]
+                    }
+                ],
+                "waitForTags": {
+                    "type": "BOOLEAN",
+                    "value": "false"
+                },
+                "checkValidation": {
+                    "type": "BOOLEAN",
+                    "value": "false"
+                },
+                "waitForTagsTimeout": {
+                    "type": "TEMPLATE",
+                    "value": "2000"
+                },
+                "uniqueTriggerId": {
+                    "type": "TEMPLATE"
+                },
+                "fingerprint": "1480720832924"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "variableId": "1",
+                "name": "utm_name",
+                "type": "u",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "component",
+                        "value": "QUERY"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "queryKey",
+                        "value": "utm_name"
+                    }
+                ],
+                "fingerprint": "1480720577215"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "PAGE_URL",
+                "name": "Page URL"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "PAGE_HOSTNAME",
+                "name": "Page Hostname"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "PAGE_PATH",
+                "name": "Page Path"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "REFERRER",
+                "name": "Referrer"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "EVENT",
+                "name": "Event"
+            },
+            {
+                "accountId": "160904734",
+                "containerId": "2772461",
+                "type": "CLICK_URL",
+                "name": "Click URL"
+            }
+        ],
+        "fingerprint": "0",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/160904734/containers/2772461/versions/0?apiLink=version"
+    }
+};
+
+var code = "<!-- Google Tag Manager -->\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\nnew Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\nj=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n})(window,document,'script','dataLayer','GTM-5PQKS7Z');<\/script>\n<!-- End Google Tag Manager -->";
+myApp.run(function($rootScope,$window){
+  $rootScope.tpl = JSON.stringify(template); 
+  $rootScope.vm = {};
+
+  $rootScope.generate = function() {
+    var rst = $rootScope.tpl.replace(/160904734/gi, $rootScope.vm.accountId);
+    rst = rst.replace(/2772461/gi, $rootScope.vm.containerId);
+    rst = rst.replace(/GTM\-WJ5X58/gi, $rootScope.vm.containerCode);
+    rst = rst.replace(/UA\-79697394\-9'/gi, $rootScope.vm.ua);
+    rst = rst.replace(/1234567/gi, $rootScope.vm.anxId);
+    $rootScope.vm.rst = rst;
+    selectible.select();
+  }
+
+   $rootScope.$watch('vm.containerCode', function(newValue, oldValue) {
+      if (newValue) {
+        $rootScope.vm.code = code.replace("GTM-5PQKS7Z", $rootScope.vm.containerCode);
+      }
+  });
+  $rootScope.doLookup = function() {
+    $http.get('https://clientapix.gsn2.com/api/v1/settings/getgoogletag?url=' + encodeURIComponent($rootScope.vm.url) + '&accountName=' + encodeURIComponent('Brick Exchange Open House 1216'))
+        .then(function(rsp) {
+          if (rsp.accountId) {
+            $scope.vm.containerId = rsp.containerId;
+            $scope.vm.accountId = rsp.accountId;
+            $scope.vm.containerCode = rsp.containerCode;
+          }
+        }, function(err) {
+          $scope.vm.errorMessage = 'Unexpected error.'
+        });
+  }
+});
+</script>
+
+
+    </body>
+</html>
