@@ -45,7 +45,7 @@
                 <label style="font-size:16px;">AppNexusId<small> required</small></label> <input type="text" ng-model="vm.anxId" autofocus="" placeholder="123432">
             </div>
             <div class="large-12 columns">
-            <center><button id="buttonChange" data-ng-click="generate()">Generate</button></center>
+            <center><button id="buttonChange" data-ng-click="generate();selectible.select();">Generate</button></center>
             </div>
             <!-- this is the quicker way to add the content -->
             <h2 style="text-align:center">
@@ -347,18 +347,17 @@ var template = {
 };
 
 var code = "<!-- Google Tag Manager -->\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\nnew Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\nj=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n})(window,document,'script','dataLayer','GTM-5PQKS7Z');<\/script>\n<!-- End Google Tag Manager -->";
-myApp.run(function($rootScope,$window){
+myApp.run(function($rootScope,$window,$http){
   $rootScope.tpl = JSON.stringify(template); 
-  $rootScope.vm = {};
+  $rootScope.vm = {url: 'http://'};
 
   $rootScope.generate = function() {
     var rst = $rootScope.tpl.replace(/160904734/gi, $rootScope.vm.accountId);
     rst = rst.replace(/2772461/gi, $rootScope.vm.containerId);
     rst = rst.replace(/GTM\-WJ5X58/gi, $rootScope.vm.containerCode);
-    rst = rst.replace(/UA\-79697394\-9'/gi, $rootScope.vm.ua);
+    rst = rst.replace(/UA\-79697394\-9/gi, $rootScope.vm.ua);
     rst = rst.replace(/1234567/gi, $rootScope.vm.anxId);
     $rootScope.vm.rst = rst;
-    selectible.select();
   }
 
    $rootScope.$watch('vm.containerCode', function(newValue, oldValue) {
@@ -366,18 +365,22 @@ myApp.run(function($rootScope,$window){
         $rootScope.vm.code = code.replace("GTM-5PQKS7Z", $rootScope.vm.containerCode);
       }
   });
+
   $rootScope.doLookup = function() {
-    $http.get('https://clientapix.gsn2.com/api/v1/settings/getgoogletag?url=' + encodeURIComponent($rootScope.vm.url) + '&accountName=' + encodeURIComponent('Brick Exchange Open House 1216'))
+    $http.get('https://clientapix.gsn2.com/api/v1/settings/gettagmanager?url=' + encodeURIComponent($rootScope.vm.url) + '&accountName=' + encodeURIComponent('Brick Exchange Open House 1216'))
         .then(function(rsp) {
-          if (rsp.accountId) {
-            $scope.vm.containerId = rsp.containerId;
-            $scope.vm.accountId = rsp.accountId;
-            $scope.vm.containerCode = rsp.containerCode;
+          var data = rsp.data;
+          if (data.accountId) {
+            $rootScope.vm.containerId = data.containerId;
+            $rootScope.vm.accountId = data.accountId;
+            $rootScope.vm.containerCode = data.publicId;
           }
         }, function(err) {
-          $scope.vm.errorMessage = 'Unexpected error.'
+          $rootScope.vm.errorMessage = 'Unexpected error.'
         });
   }
+
+   $rootScope.$watch('vm.ua', $rootScope.generate);
 });
 </script>
 
