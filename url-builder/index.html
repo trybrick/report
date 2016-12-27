@@ -58,7 +58,7 @@
                     Your Tracking Pixel URL
                 </h2>
             <div >   
-                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectibleTracking">https://www.google-analytics.com/collect?v=1&t=event&tid={{data.ua}}&ec={{data.campaignName}}&ea={{data.medium}}&el={{data.source}}&ev=1&cb=[CACHEBUSTER]</textarea>
+                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectibleTracking">https://www.google-analytics.com/collect?v=1&t=event&tid={{data.ua}}&ec={{encodeURIComponent(data.campaignName)}}&ea={{encodeURIComponent(data.medium)}}&el={{encodeURIComponent(data.source)}}&ev=1&cb=[CACHEBUSTER]</textarea>
           <center><button id="buttonTracking" onclick="selectibleTracking.select(); changeText('buttonTracking');">Select URL</button></center>
 
             </div>
