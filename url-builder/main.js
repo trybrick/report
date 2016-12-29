@@ -1,11 +1,11 @@
 var myApp = angular.module('myApp', []);
-app.filter('nospace', function () {
+myApp.filter('nospace', function () {
     return function (value) {
         var str = value.replace(/\s+/g, '');
         return str;
     };
 });
-app.filter('escape', function () {
+myApp.filter('escape', function () {
     return window.encodeURIComponent;
 });
 myApp.factory('Data', function () {});
