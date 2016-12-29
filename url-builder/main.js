@@ -9,6 +9,6 @@ myApp.filter('escape', function () {
     return window.encodeURIComponent;
 });
 myApp.factory('Data', function () {});
-app.run(function ($rootScope, $window) {
+myApp.run(function ($rootScope, $window) {
     $rootScope.prompt = $window.prompt;
 });
