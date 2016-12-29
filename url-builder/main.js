@@ -5,8 +5,11 @@ myApp.filter('nospace', function () {
         return str;
     };
 });
-myApp.filter('escape', function () {
-    return window.encodeURIComponent;
+myApp.filter('escape', function (value) {
+    if (value) {
+        return encodeURIComponent(value);
+    }
+    return '';
 });
 myApp.factory('Data', function () {});
 myApp.run(function ($rootScope, $window) {
