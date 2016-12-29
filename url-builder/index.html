@@ -50,7 +50,7 @@
                     Your UTM URL
                 </h2>
              <div ng-show="data.url" >   
-                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url + '?utm_name=' + encodeURIComponent(data.campaignName) + '&utm_source=' + encodeURIComponent(data.source) + '&utm_medium=' + encodeURIComponent(data.medium)}}{{data.campaignTerm ? '&utm_term=' + encodeURIComponent(data.campaignTerm) : ''}}{{data.campaignContent ? '&utm_content=' + encodeURIComponent(data.campaignContent) : ''}}</textarea>
+                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url}}?utm_name={{data.campaignName | escape}}&utm_source={{data.source | escape}}&utm_medium={{data.medium || escape}}{{data.campaignTerm ? '&utm_term=' : ''}}{{data.campaignTerm || escape}}{{data.campaignContent ? '&utm_content=' : ''}}{{data.campaignContent | escape}}</textarea>
           <center><button id="buttonChange" onclick="selectible.select(); changeText('buttonChange');">Select URL</button></center>
           <div ng-show="data.ua">
                 <!-- this is the quicker way to add the content -->
@@ -58,7 +58,7 @@
                     Your Tracking Pixel URL
                 </h2>
             <div >   
-                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectibleTracking">https://www.google-analytics.com/collect?v=1&t=event&tid={{data.ua}}&ec={{encodeURIComponent(data.campaignName)}}&ea={{encodeURIComponent(data.medium)}}&el={{encodeURIComponent(data.source)}}&ev=1&cb=[CACHEBUSTER]</textarea>
+                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectibleTracking">https://www.google-analytics.com/collect?v=1&t=event&tid={{data.ua}}&ec={{data.campaignName | escape}}&ea={{data.medium | escape}}&el={{data.source | escape}}&ev=1&cb=[CACHEBUSTER]</textarea>
           <center><button id="buttonTracking" onclick="selectibleTracking.select(); changeText('buttonTracking');">Select URL</button></center>
 
             </div>
