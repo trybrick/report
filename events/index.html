@@ -107,7 +107,7 @@
 
       // get url
       // get report
-      $http.get('http://stats.webscript.io/sites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
+      $http.get('https://api.brickinc.net/api/v2/statsites?client=' + encodeURIComponent($scope.vm.client) + '&domain=' + encodeURIComponent($window.urlParams.domain))
         .then(function(rsp) {
           $scope.reset($window.urlParams.date);
           $scope.vm.data = rsp.data;
