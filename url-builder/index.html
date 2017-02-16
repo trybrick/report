@@ -51,7 +51,7 @@
                     Your UTM URL
                 </h2>
              <div ng-show="data.url" >   
-                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url}}?utm_name={{data.campaignName | escape}}&utm_source={{data.source | escape}}&utm_medium={{data.medium | escape}}{{data.campaignTerm ? '&utm_term=' : ''}}{{data.campaignTerm | escape}}{{data.campaignContent ? '&utm_content=' : ''}}{{data.campaignContent | escape}}</textarea>
+                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url}}?utm_name={{data.campaignName | escape}}&utm_campaign={{data.campaignName | escape}}&utm_source={{data.source | escape}}&utm_medium={{data.medium | escape}}{{data.campaignTerm ? '&utm_term=' : ''}}{{data.campaignTerm | escape}}{{data.campaignContent ? '&utm_content=' : ''}}{{data.campaignContent | escape}}</textarea>
           <center><button id="buttonChange" onclick="selectible.select(); changeText('buttonChange');">Select URL</button></center>
           <div ng-show="data.ua">
                 <!-- this is the quicker way to add the content -->
