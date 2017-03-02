@@ -36,6 +36,10 @@
           position: relative;
           z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
         }
+        .popover {
+          position: absolute;
+          z-index: 100;
+        }
     </style>
        <!--
       IE8 support, see AngularJS Internet Explorer Compatibility https://docs.angularjs.org/guide/ie
@@ -108,15 +112,17 @@
           <tbody>
             <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
               <td style="text-align: right">{{vm.pageId * 25 + 1 + $index}}.</td>
-              <td>{{item.sellerInfo || ((item.bestMarketplacePrice || {sellerInfo: 'walmart'}).sellerInfo)}}</td>
+              <td>{{item.sellerInfo ? "*" : ""}} {{item.sellerInfo || ((item.bestMarketplacePrice || {sellerInfo: 'walmart'}).sellerInfo)}}</td>
               <td><a href="javascript:void(0)" target="_black" data-ng-href="{{item.productUrl}}">{{item.itemId}}</a></td>
               <td>{{item.upc}}</td>
               <td>{{item.name}}</td>
-              <td style="text-align: right">${{item.msrp}}</td>
-              <td style="text-align: right">${{item.salePrice}}</td>
+              <td style="text-align: right">{{item.msrp || ((item.bestMarketplacePrice || {price: null}).price) | currency:"$"}}</td>
+              <td style="text-align: right">{{item.salePrice | currency:"$"}}</td>
             </tr>
           </tbody>
         </table>
+
+        * denotes currently only available through this seller.
       </div>
     </div>
   </div>
