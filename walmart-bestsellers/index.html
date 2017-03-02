@@ -108,7 +108,7 @@
           <tbody>
             <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
               <td style="text-align: right">{{vm.pageId * 25 + 1 + $index}}.</td>
-              <td>{{(item.bestMarketplacePrice || {sellerInfo: 'walmart'}).sellerInfo}}</td>
+              <td>{{item.sellerInfo || ((item.bestMarketplacePrice || {sellerInfo: 'walmart'}).sellerInfo)}}</td>
               <td><a href="javascript:void(0)" target="_black" data-ng-href="{{item.productUrl}}">{{item.itemId}}</a></td>
               <td>{{item.upc}}</td>
               <td>{{item.name}}</td>
