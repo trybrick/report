@@ -6,12 +6,57 @@
   <meta name="robots" content="noindex">
   <title>Walmart Bestsellers</title>
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+  <link rel="stylesheet" href="https://angular-ui.github.io/ui-select/dist/select.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300">
+
+    <style>
+        body {
+            padding: 15px;
+        }
+
+        .select2 > .select2-choice.ui-select-match {
+            /* Because of the inclusion of Bootstrap */
+            height: 29px;
+        }
+
+        .selectize-control > .selectize-dropdown {
+            top: 36px;
+        }
+        /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
+        .select-box {
+          background: #fff;
+          position: relative;
+          z-index: 1;
+        }
+        .alert-info.positioned {
+          margin-top: 1em;
+          position: relative;
+          z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
+        }
+    </style>
+       <!--
+      IE8 support, see AngularJS Internet Explorer Compatibility https://docs.angularjs.org/guide/ie
+      For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
+    -->
+    <!--[if lt IE 9]>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+      <script>
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
+      </script>
+    <![endif]-->
 </head>
 
 <body>
-  <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js'></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
+  <script src="https://angular-ui.github.io/ui-select/dist/select.js"></script>
+
   <datalist id="dates">
     <option value="today"></option>
     <option value="yesterday"></option>
@@ -25,17 +70,20 @@
     <option value="2-months-ago"></option>
   </datalist>
   <div class="container">
-    <div ng-app="DemoReporting" ng-controller="ReportingController" style="position: relative;">
+    <div ng-app="DemoReporting" ng-controller="ReportingController">
 
       <h1>Walmart Bestsellers</h1>
-      <div>
-        <select
-            class="form-control"
-            ng-model="vm.selectedCategory"
-            ng-options="c.name for c in vm.categories">
-        </select>
+
+      <div class="form-group">
+         <ui-select ng-model="vm.selectedCategory" theme="selectize" ng-disabled="vm.isRunning" style="width: 100%;" title="Choose a category">
+    <ui-select-match placeholder="Select or search a category in the list...">{{$select.selected.pathName}}</ui-select-match>
+    <ui-select-choices repeat="c in vm.categories | filter: $select.search">
+      <span ng-bind-html="c.pathName | highlight: $select.search"></span>
+      <small ng-bind-html="c.name | highlight: $select.search"></small>
+    </ui-select-choices>
+  </ui-select>
         <br />
-        <button class="btn btn-default" data-ng-click="vm.pageId = vm.pageId - 1; search();" ng-disabled="vm.isRunning || vm.rst.pageId <= 0">Previous Page<button>
+        <button class="btn btn-default" data-ng-click="vm.pageId = vm.pageId - 1; search();" ng-disabled="vm.isRunning || vm.pageId <= 0">Previous Page<button>
         <button class="btn btn-default btn-primary" data-ng-click="vm.pageId = vm.pageId + 1; search();" ng-disabled="vm.isRunning || vm.rst.items.length < 25">Next Page<button>
       </div>
 
@@ -49,18 +97,22 @@
           <thead>
             <tr>
               <th></th>
+              <th>seller</th>
               <th>id</th>
               <th>upc</th>
               <th>name</th>
+              <th>price</th>
               <th>salePrice</th>
             </tr>
           </thead>
           <tbody>
             <tr data-ng-repeat="item in vm.rst.items | filter:vm.filter">
               <td style="text-align: right">{{vm.pageId * 25 + 1 + $index}}.</td>
+              <td>{{(item.bestMarketplacePrice || {sellerInfo: 'walmart'}).sellerInfo}}</td>
               <td><a href="javascript:void(0)" target="_black" data-ng-href="{{item.productUrl}}">{{item.itemId}}</a></td>
               <td>{{item.upc}}</td>
               <td>{{item.name}}</td>
+              <td style="text-align: right">${{item.msrp}}</td>
               <td style="text-align: right">${{item.salePrice}}</td>
             </tr>
           </tbody>
@@ -72,15 +124,32 @@
   <script>
   (function() {
     angular
-      .module("DemoReporting", [])
+      .module("DemoReporting", ['ui.select', 'ngSanitize'])
       .controller("ReportingController", ['$scope', '$window', '$http', ReportingController]);
 
     function ReportingController($scope, $window, $http) {
+
+      function parseData(toAdd, list, parent) {
+        angular.forEach(list, function(v, k) {
+          v.pathName = v.name;
+          if (parent) {
+            v.pathName = parent.pathName + " > " + v.pathName;
+          }
+          toAdd.push(v);
+          if (v.children) {
+            parseData(toAdd, v.children, v);
+          }
+        });
+      }
+
+      var rst = [];
+      parseData(rst, cats.categories, null);
+
       $scope.vm = {
         data: {},
-        categories: cats.categories,
+        categories: rst,
         isRunning: false,
-        baseUrl: 'https://walmart.webscript.io/query?path=search%3Fquery%3D%2A%26sort%3Dbestseller%26responseGroup%3Dbase%26start%3D[[mystart]]%26numItems%3D25%26categoryId%3D[[mycategoryid]]',
+        baseUrl: 'https://walmart.webscript.io/query?path=search%3Fquery%3D%2A%26sort%3Dbestseller%26responseGroup%3Dfull%26start%3D[[mystart]]%26numItems%3D25%26categoryId%3D[[mycategoryid]]',
         selectedCategory: null,
         pageId: 0
       };
@@ -96,6 +165,7 @@
         $scope.urlParams.date = date || '';
       }
 
+
       $scope.search = function() {
         if (!$scope.vm.selectedCategory) {
           return;
@@ -103,7 +173,7 @@
 
         $scope.vm.isRunning = true;
         var url = $scope.vm.baseUrl.replace("[[mystart]]", $scope.vm.pageId * 25 + 1).replace("[[mycategoryid]]", $scope.vm.selectedCategory.id);
-        console.log($scope.vm.pageId * 25 + 1);
+        // console.log($scope.vm.pageId * 25 + 1);
         $http.get(url)
           .then(function(rsp) {
             $scope.vm.isRunning = false;
