@@ -87,7 +87,7 @@
     </ui-select-choices>
   </ui-select>
         <br />
-        <button class="btn btn-default" data-ng-click="vm.pageId = vm.pageId - 1; search();" ng-disabled="vm.isRunning || vm.pageId <= 0">Previous Page</ßbutton>
+        <button class="btn btn-default" data-ng-click="vm.pageId = vm.pageId - 1; search();" ng-disabled="vm.isRunning || vm.pageId <= 0">Previous Page</button> &nbsp; 
         <button class="btn btn-default btn-primary" data-ng-click="vm.pageId = vm.pageId + 1; search();" ng-disabled="vm.isRunning || vm.rst.items.length < 25">Next Page</button>
       </div>
 
@@ -160,7 +160,8 @@
         data: {},
         categories: rst,
         isRunning: false,
-        baseUrl: 'https://walmart.webscript.io/query?path=search%3Fquery%3D%2A%26sort%3Dbestseller%26responseGroup%3Dfull%26start%3D[[mystart]]%26numItems%3D25%26categoryId%3D[[mycategoryid]]',
+        baseUrl: 'https://walmart.webscript.io/query?path=' + 'search%3Fquery%3D%2A%26sort%3Dbestseller%26responseGroup%3Dfull%26numItems%3D25%26facet%3Don' + 
+      '%26start%3D[[mystart]]%26categoryId%3D[[mycategoryid]]',
         selectedCategory: null,
         pageId: 0
       };
