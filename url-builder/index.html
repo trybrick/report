@@ -26,20 +26,21 @@
             
             </div>
             <div class="large-6 columns">
-                <label style="font-size:16px;">Google Analytics UA-#<small> required</small></label> <input type="text" ng-model="data.ua" autofocus="" placeholder="UA-########-##">
+                <label style="font-size:16px;">Campaign Name<small> required</small></label> <input type="text" ng-model="data.campaignName" placeholder="Name of the campaign. ex. clientname_campaignname_05-01-2017">
             </div>
             <div class="large-6 columns">
-                <label style="font-size:16px;">Campaign Name<small> required</small></label> <input type="text" ng-model="data.campaignName" placeholder="Name of the campaign. ex. christmas-coupon-20161101">
+                <label style="font-size:16px;">Source<small> required</small></label> <input type="text" ng-model="data.source" placeholder="campaign origination ex. network, twitter, facebook, etc.">
             </div>
             <div class="large-6 columns">
-                <label style="font-size:16px;">Source<small> required</small></label> <input type="text" ng-model="data.source" placeholder="campaign origination ex. appnexus, twitter, facebook, etc.">
-            </div>
-            <div class="large-6 columns">
-                <label style="font-size:16px;">Medium<small> required</small></label> <input type="text" ng-model="data.medium" placeholder="Type of content used. ex. banner-ad, newsletter, etc.">
+                <label style="font-size:16px;">Medium<small> required</small></label> <input type="text" ng-model="data.medium" placeholder="Type of content used. ex. banner-ad, pre-roll, text-ad, etc.">
             </div>
             <div class="row">&nbsp;<br/></div>
 
             <h1>Optional Data</h1>
+
+            <div class="large-6 columns">
+                <label style="font-size:16px;">Google Analytics UA-#</label> <input type="text" ng-model="data.ua" autofocus="" placeholder="UA-########-##">
+            </div>
             <div class="large-6 columns">
                 <label style="font-size:16px;">Campaign Term</label> <input type="text" ng-model="data.campaignTerm" placeholder="For paid keywords">
             </div>
@@ -51,7 +52,7 @@
                     Your UTM URL
                 </h2>
              <div ng-show="data.url" >   
-                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url}}?utm_name={{data.campaignName | escape}}&utm_campaign={{data.campaignName | escape}}&utm_source={{data.source | escape}}&utm_medium={{data.medium | escape}}{{data.campaignTerm ? '&utm_term=' : ''}}{{data.campaignTerm | escape}}{{data.campaignContent ? '&utm_content=' : ''}}{{data.campaignContent | escape}}</textarea>
+                <textarea rows="1" ng-trim="true" style="font-size:24px; text-align:center;" class="panel" id="selectible">{{data.url}}?utm_campaign={{data.campaignName | escape}}&utm_source={{data.source | escape}}&utm_medium={{data.medium | escape}}{{data.campaignTerm ? '&utm_term=' : ''}}{{data.campaignTerm | escape}}{{data.campaignContent ? '&utm_content=' : ''}}{{data.campaignContent | escape}}</textarea>
           <center><button id="buttonChange" onclick="selectible.select(); changeText('buttonChange');">Select URL</button></center>
           <div ng-show="data.ua">
                 <!-- this is the quicker way to add the content -->
