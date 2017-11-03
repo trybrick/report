@@ -148,7 +148,7 @@ function identifyDistrict(d){
 		lng: d.latlng.lng
 	};
     $('.loader').show();
-	$.ajax("https://brick.webscript.io/pointdata", {
+	$.ajax("https://cdn.brickinc.net/mn/rep/", {
 		 data: data,
 		success: function(result){			
 			addMemberData(result);
